@@ -1,67 +1,84 @@
 import React from 'react';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import { useAuth } from './context/AuthContext';
+import ProtectedRoute from './components/ProtectedRoute';
+import Login from './pages/Login';
+import Signup from './pages/Signup';
+import ForgotPassword from './pages/ForgotPassword';
+import {
+  AdminDashboard,
+  ManagerDashboard,
+  EmployeeDashboard,
+} from './pages/Dashboards';
+
+// Root route dispatcher that redirects authenticated users to their dashboard
+const RootRedirect = () => {
+  const { user, loading } = useAuth();
+
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-slate-50 flex items-center justify-center">
+        <div className="flex flex-col items-center">
+          <div className="w-12 h-12 border-4 border-indigo-200 border-t-indigo-600 rounded-full animate-spin"></div>
+          <p className="mt-4 text-sm font-semibold text-slate-600">Loading portal...</p>
+        </div>
+      </div>
+    );
+  }
+
+  if (user) {
+    if (user.role === 'Admin') {
+      return <Navigate to="/admin/dashboard" replace />;
+    } else if (user.role === 'Manager') {
+      return <Navigate to="/manager/dashboard" replace />;
+    } else {
+      return <Navigate to="/employee/dashboard" replace />;
+    }
+  }
+
+  return <Navigate to="/login" replace />;
+};
 
 function App() {
   return (
-    <div className="min-h-screen bg-slate-50 flex flex-col items-center justify-center p-6">
-      <div className="max-w-md w-full bg-white rounded-2xl shadow-xl p-8 text-center border border-slate-100 transition-all duration-300 hover:shadow-2xl">
-        {/* App Logo/Icon representation */}
-        <div className="mx-auto w-16 h-16 bg-indigo-50 rounded-2xl flex items-center justify-center mb-6">
-          <svg
-            className="w-8 h-8 text-indigo-600 animate-pulse"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-            strokeWidth={2}
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
-            />
-          </svg>
-        </div>
+    <Router>
+      <Routes>
+        {/* Public Routes */}
+        <Route path="/login" element={<Login />} />
+        <Route path="/signup" element={<Signup />} />
+        <Route path="/forgot-password" element={<ForgotPassword />} />
 
-        <h1 className="text-3xl font-extrabold text-slate-900 mb-2 tracking-tight">
-          Performance Portal
-        </h1>
-        <p className="text-sm text-slate-500 mb-8 font-medium">
-          Employee Performance Management System
-        </p>
+        {/* Protected Dashboard Routes */}
+        <Route
+          path="/admin/dashboard"
+          element={
+            <ProtectedRoute allowedRoles={['Admin']}>
+              <AdminDashboard />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/manager/dashboard"
+          element={
+            <ProtectedRoute allowedRoles={['Manager']}>
+              <ManagerDashboard />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/employee/dashboard"
+          element={
+            <ProtectedRoute allowedRoles={['Employee']}>
+              <EmployeeDashboard />
+            </ProtectedRoute>
+          }
+        />
 
-        <div className="space-y-4 mb-8">
-          <div className="flex items-center space-x-3 text-left p-3.5 bg-slate-50 rounded-xl border border-slate-100">
-            <span className="flex-shrink-0 w-6 h-6 bg-emerald-100 text-emerald-700 rounded-full flex items-center justify-center text-xs font-bold">
-              ✓
-            </span>
-            <span className="text-sm font-semibold text-slate-700">Database Schemas Initialized</span>
-          </div>
-
-          <div className="flex items-center space-x-3 text-left p-3.5 bg-slate-50 rounded-xl border border-slate-100">
-            <span className="flex-shrink-0 w-6 h-6 bg-emerald-100 text-emerald-700 rounded-full flex items-center justify-center text-xs font-bold">
-              ✓
-            </span>
-            <span className="text-sm font-semibold text-slate-700">Backend Server Foundation Ready</span>
-          </div>
-
-          <div className="flex items-center space-x-3 text-left p-3.5 bg-slate-50 rounded-xl border border-slate-100">
-            <span className="flex-shrink-0 w-6 h-6 bg-emerald-100 text-emerald-700 rounded-full flex items-center justify-center text-xs font-bold">
-              ✓
-            </span>
-            <span className="text-sm font-semibold text-slate-700">Vite & Tailwind CSS Active</span>
-          </div>
-        </div>
-
-        <button 
-          onClick={() => alert("Verification setup is complete! Standing by for further instructions.")}
-          className="w-full bg-indigo-600 text-white py-3.5 px-4 rounded-xl font-bold text-sm shadow-md shadow-indigo-100 hover:shadow-lg hover:shadow-indigo-200 transition-all duration-200 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 active:scale-[0.98]"
-        >
-          Check Foundational Status
-        </button>
-      </div>
-      <div className="mt-8 text-xs text-slate-400 font-medium tracking-wide">
-        PHASE 1 SETUP • READY
-      </div>
-    </div>
+        {/* Fallback Redirection */}
+        <Route path="/" element={<RootRedirect />} />
+        <Route path="*" element={<Navigate to="/" replace />} />
+      </Routes>
+    </Router>
   );
 }
 
