@@ -12,6 +12,7 @@ import {
 } from './pages/Dashboards';
 import EmployeeManagement from './pages/EmployeeManagement';
 import ProjectManagement from './pages/ProjectManagement';
+import AttendanceManagement from './pages/AttendanceManagement';
 
 // Root route dispatcher that redirects authenticated users to their dashboard
 const RootRedirect = () => {
@@ -72,6 +73,14 @@ function App() {
           element={
             <ProtectedRoute allowedRoles={['Admin', 'Manager']}>
               <ProjectManagement />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/attendance"
+          element={
+            <ProtectedRoute allowedRoles={['Admin', 'Manager', 'Employee']}>
+              <AttendanceManagement />
             </ProtectedRoute>
           }
         />

@@ -63,6 +63,16 @@ export const DashboardLayout = ({ title, role, children }) => {
             >
               Project Board
             </Link>
+            <Link
+              to="/attendance"
+              className={`px-4 py-1.5 rounded-lg text-xs font-bold transition-all duration-200 ${
+                location.pathname === '/attendance'
+                  ? 'bg-white text-indigo-600 shadow-sm'
+                  : 'text-slate-500 hover:text-slate-800'
+              }`}
+            >
+              Attendance
+            </Link>
           </nav>
         )}
 
@@ -88,6 +98,42 @@ export const DashboardLayout = ({ title, role, children }) => {
               }`}
             >
               Project Board
+            </Link>
+            <Link
+              to="/attendance"
+              className={`px-4 py-1.5 rounded-lg text-xs font-bold transition-all duration-200 ${
+                location.pathname === '/attendance'
+                  ? 'bg-white text-indigo-600 shadow-sm'
+                  : 'text-slate-500 hover:text-slate-800'
+              }`}
+            >
+              Attendance
+            </Link>
+          </nav>
+        )}
+
+        {/* Employee Navigation (Desktop) */}
+        {role === 'Employee' && (
+          <nav className="hidden md:flex items-center bg-slate-100 p-1 rounded-xl">
+            <Link
+              to="/employee/dashboard"
+              className={`px-4 py-1.5 rounded-lg text-xs font-bold transition-all duration-200 ${
+                location.pathname === '/employee/dashboard'
+                  ? 'bg-white text-indigo-600 shadow-sm'
+                  : 'text-slate-500 hover:text-slate-800'
+              }`}
+            >
+              Dashboard Overview
+            </Link>
+            <Link
+              to="/attendance"
+              className={`px-4 py-1.5 rounded-lg text-xs font-bold transition-all duration-200 ${
+                location.pathname === '/attendance'
+                  ? 'bg-white text-indigo-600 shadow-sm'
+                  : 'text-slate-500 hover:text-slate-800'
+              }`}
+            >
+              Attendance History
             </Link>
           </nav>
         )}
@@ -140,6 +186,16 @@ export const DashboardLayout = ({ title, role, children }) => {
           >
             Projects
           </Link>
+          <Link
+            to="/attendance"
+            className={`px-4 py-1.5 rounded-lg text-xs font-bold transition-all duration-200 ${
+              location.pathname === '/attendance'
+                ? 'bg-indigo-50 text-indigo-600'
+                : 'text-slate-500 hover:text-slate-800'
+            }`}
+          >
+            Attendance
+          </Link>
         </div>
       )}
 
@@ -165,6 +221,42 @@ export const DashboardLayout = ({ title, role, children }) => {
             }`}
           >
             Projects
+          </Link>
+          <Link
+            to="/attendance"
+            className={`px-4 py-1.5 rounded-lg text-xs font-bold transition-all duration-200 ${
+              location.pathname === '/attendance'
+                ? 'bg-indigo-50 text-indigo-600'
+                : 'text-slate-500 hover:text-slate-800'
+            }`}
+          >
+            Attendance
+          </Link>
+        </div>
+      )}
+
+      {/* Employee Navigation (Mobile Subheader) */}
+      {role === 'Employee' && (
+        <div className="md:hidden bg-white border-b border-slate-200 px-6 py-2 flex justify-center space-x-2">
+          <Link
+            to="/employee/dashboard"
+            className={`px-4 py-1.5 rounded-lg text-xs font-bold transition-all duration-200 ${
+              location.pathname === '/employee/dashboard'
+                ? 'bg-indigo-50 text-indigo-600'
+                : 'text-slate-500 hover:text-slate-800'
+            }`}
+          >
+            Overview
+          </Link>
+          <Link
+            to="/attendance"
+            className={`px-4 py-1.5 rounded-lg text-xs font-bold transition-all duration-200 ${
+              location.pathname === '/attendance'
+                ? 'bg-indigo-50 text-indigo-600'
+                : 'text-slate-500 hover:text-slate-800'
+            }`}
+          >
+            Attendance
           </Link>
         </div>
       )}
@@ -368,27 +460,64 @@ export const ManagerDashboard = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  useEffect(() => {
-    const fetchManagerStats = async () => {
-      try {
-        const response = await fetch(`${API_URL}/dashboard/manager`, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
-        const resData = await response.json();
-        if (!response.ok) {
-          throw new Error(resData.message || 'Failed to fetch manager stats');
-        }
-        setData(resData);
-      } catch (err) {
-        setError(err.message);
-      } finally {
-        setLoading(false);
+  const fetchManagerStats = async () => {
+    try {
+      const response = await fetch(`${API_URL}/dashboard/manager`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      const resData = await response.json();
+      if (!response.ok) {
+        throw new Error(resData.message || 'Failed to fetch manager stats');
       }
-    };
+      setData(resData);
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
     fetchManagerStats();
   }, [token]);
+
+  const handleCheckIn = async () => {
+    try {
+      const response = await fetch(`${API_URL}/attendance/check-in`, {
+        method: 'POST',
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      const resData = await response.json();
+      if (!response.ok) {
+        throw new Error(resData.message || 'Check-in failed');
+      }
+      fetchManagerStats();
+    } catch (err) {
+      alert(err.message);
+    }
+  };
+
+  const handleCheckOut = async () => {
+    try {
+      const response = await fetch(`${API_URL}/attendance/check-out`, {
+        method: 'POST',
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      const resData = await response.json();
+      if (!response.ok) {
+        throw new Error(resData.message || 'Check-out failed');
+      }
+      fetchManagerStats();
+    } catch (err) {
+      alert(err.message);
+    }
+  };
 
   if (loading) {
     return (
@@ -413,22 +542,80 @@ export const ManagerDashboard = () => {
 
   return (
     <DashboardLayout title="Manager Dashboard" role="Manager">
-      {/* Overview stats cards */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+      {/* Attendance & Stats Grid */}
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
+        {/* Attendance widget */}
+        <div className="bg-white p-6 rounded-2xl border border-slate-100 shadow-sm flex items-center justify-between lg:col-span-2">
+          <div>
+            <p className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-1">Today's Attendance Status</p>
+            {data.todayAttendance ? (
+              <div className="space-y-2 mt-1">
+                <h3 className="text-xl font-extrabold text-emerald-600 flex items-center">
+                  <CheckCircle2 className="w-5 h-5 mr-1.5" />
+                  Checked In
+                </h3>
+                <p className="text-xs font-semibold text-slate-500">
+                  Logged check-in at: <span className="font-bold text-slate-800">
+                    {new Date(data.todayAttendance.checkInTime).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                  </span>
+                  {data.todayAttendance.checkOutTime && (
+                    <>
+                      {' '}and check-out at: <span className="font-bold text-slate-800">
+                        {new Date(data.todayAttendance.checkOutTime).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                      </span>
+                    </>
+                  )}
+                </p>
+                {!data.todayAttendance.checkOutTime && (
+                  <button
+                    onClick={handleCheckOut}
+                    className="mt-2 bg-indigo-650 hover:bg-indigo-750 text-white font-bold text-xs py-2 px-4 rounded-xl shadow-sm transition-all duration-200 cursor-pointer hover:shadow active:scale-95"
+                  >
+                    Clock Out
+                  </button>
+                )}
+              </div>
+            ) : (
+              <div className="mt-1 space-y-2">
+                <h3 className="text-xl font-extrabold text-slate-400 flex items-center">
+                  <Clock className="w-5 h-5 mr-1.5" />
+                  No check-in record
+                </h3>
+                <p className="text-xs font-semibold text-slate-500 mb-2">Please clock in to register attendance logs.</p>
+                <button
+                  onClick={handleCheckIn}
+                  className="bg-indigo-650 hover:bg-indigo-755 text-white font-bold text-xs py-2 px-4 rounded-xl shadow-sm transition-all duration-200 cursor-pointer hover:shadow active:scale-95"
+                >
+                  Clock In
+                </button>
+              </div>
+            )}
+          </div>
+          <div className="w-12 h-12 bg-indigo-50 rounded-xl flex items-center justify-center text-indigo-600">
+            <Calendar className="w-6 h-6" />
+          </div>
+        </div>
+
+        {/* Direct Reports card */}
         <div className="bg-white p-6 rounded-2xl border border-slate-100 shadow-sm flex items-center justify-between">
           <div>
             <p className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-1">Direct Reports</p>
             <h3 className="text-3xl font-black text-slate-900">{data.teamCount}</h3>
+            <p className="text-[10px] text-slate-400 font-semibold mt-1">Currently assigned to your team</p>
           </div>
           <div className="w-12 h-12 bg-indigo-50 rounded-xl flex items-center justify-center text-indigo-600">
             <Users className="w-6 h-6" />
           </div>
         </div>
+      </div>
 
+      {/* Managed Projects & Reviews Cards */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
         <div className="bg-white p-6 rounded-2xl border border-slate-100 shadow-sm flex items-center justify-between">
           <div>
             <p className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-1">Managed Projects</p>
             <h3 className="text-3xl font-black text-slate-900">{data.projects.length}</h3>
+            <p className="text-[10px] text-slate-400 font-semibold mt-1">Assigned project boards</p>
           </div>
           <div className="w-12 h-12 bg-indigo-50 rounded-xl flex items-center justify-center text-indigo-600">
             <Briefcase className="w-6 h-6" />
@@ -439,6 +626,7 @@ export const ManagerDashboard = () => {
           <div>
             <p className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-1">Reviews Pending</p>
             <h3 className="text-3xl font-black text-slate-900">{data.pendingReviews.length}</h3>
+            <p className="text-[10px] text-slate-400 font-semibold mt-1">Direct reports waiting evaluation</p>
           </div>
           <div className="w-12 h-12 bg-indigo-50 rounded-xl flex items-center justify-center text-indigo-600">
             <Star className="w-6 h-6" />
@@ -604,27 +792,64 @@ export const EmployeeDashboard = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  useEffect(() => {
-    const fetchEmployeeStats = async () => {
-      try {
-        const response = await fetch(`${API_URL}/dashboard/employee`, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
-        const resData = await response.json();
-        if (!response.ok) {
-          throw new Error(resData.message || 'Failed to fetch employee stats');
-        }
-        setData(resData);
-      } catch (err) {
-        setError(err.message);
-      } finally {
-        setLoading(false);
+  const fetchEmployeeStats = async () => {
+    try {
+      const response = await fetch(`${API_URL}/dashboard/employee`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      const resData = await response.json();
+      if (!response.ok) {
+        throw new Error(resData.message || 'Failed to fetch employee stats');
       }
-    };
+      setData(resData);
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
     fetchEmployeeStats();
   }, [token]);
+
+  const handleCheckIn = async () => {
+    try {
+      const response = await fetch(`${API_URL}/attendance/check-in`, {
+        method: 'POST',
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      const resData = await response.json();
+      if (!response.ok) {
+        throw new Error(resData.message || 'Check-in failed');
+      }
+      fetchEmployeeStats();
+    } catch (err) {
+      alert(err.message);
+    }
+  };
+
+  const handleCheckOut = async () => {
+    try {
+      const response = await fetch(`${API_URL}/attendance/check-out`, {
+        method: 'POST',
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      const resData = await response.json();
+      if (!response.ok) {
+        throw new Error(resData.message || 'Check-out failed');
+      }
+      fetchEmployeeStats();
+    } catch (err) {
+      alert(err.message);
+    }
+  };
 
   if (loading) {
     return (
@@ -658,7 +883,7 @@ export const EmployeeDashboard = () => {
           <div>
             <p className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-1">Today's Attendance Status</p>
             {data.todayAttendance ? (
-              <div className="space-y-1 mt-1">
+              <div className="space-y-2 mt-1">
                 <h3 className="text-xl font-extrabold text-emerald-600 flex items-center">
                   <CheckCircle2 className="w-5 h-5 mr-1.5" />
                   Checked In
@@ -675,14 +900,28 @@ export const EmployeeDashboard = () => {
                     </>
                   )}
                 </p>
+                {!data.todayAttendance.checkOutTime && (
+                  <button
+                    onClick={handleCheckOut}
+                    className="mt-2 bg-indigo-650 hover:bg-indigo-750 text-white font-bold text-xs py-2 px-4 rounded-xl shadow-sm transition-all duration-200 cursor-pointer hover:shadow active:scale-95"
+                  >
+                    Clock Out
+                  </button>
+                )}
               </div>
             ) : (
-              <div className="mt-1">
+              <div className="mt-1 space-y-2">
                 <h3 className="text-xl font-extrabold text-slate-400 flex items-center">
                   <Clock className="w-5 h-5 mr-1.5" />
                   No check-in record
                 </h3>
-                <p className="text-xs font-semibold text-slate-500">Please clock in to register attendance logs.</p>
+                <p className="text-xs font-semibold text-slate-500 mb-2">Please clock in to register attendance logs.</p>
+                <button
+                  onClick={handleCheckIn}
+                  className="bg-indigo-650 hover:bg-indigo-755 text-white font-bold text-xs py-2 px-4 rounded-xl shadow-sm transition-all duration-200 cursor-pointer hover:shadow active:scale-95"
+                >
+                  Clock In
+                </button>
               </div>
             )}
           </div>

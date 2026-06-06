@@ -140,11 +140,18 @@ export const getManagerDashboard = async (req, res) => {
       (member) => !completedReviews.some((rid) => rid.equals(member._id))
     );
 
+    // 5. Manager's own today's attendance log
+    const todayAttendance = await Attendance.findOne({
+      userId: managerId,
+      date: today,
+    }).select('checkInTime checkOutTime');
+
     res.json({
       teamCount: teamMembers.length,
       projects,
       attendanceSummary,
       pendingReviews: pendingReviewsList,
+      todayAttendance,
     });
   } catch (error) {
     console.error('Manager dashboard error:', error);
