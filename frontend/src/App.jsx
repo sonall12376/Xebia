@@ -10,6 +10,7 @@ import {
   ManagerDashboard,
   EmployeeDashboard,
 } from './pages/Dashboards';
+import EmployeeManagement from './pages/EmployeeManagement';
 
 // Root route dispatcher that redirects authenticated users to their dashboard
 const RootRedirect = () => {
@@ -54,6 +55,14 @@ function App() {
           element={
             <ProtectedRoute allowedRoles={['Admin']}>
               <AdminDashboard />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/admin/employees"
+          element={
+            <ProtectedRoute allowedRoles={['Admin']}>
+              <EmployeeManagement />
             </ProtectedRoute>
           }
         />
