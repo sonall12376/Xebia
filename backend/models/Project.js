@@ -41,6 +41,10 @@ const projectSchema = new mongoose.Schema(
         ref: 'User',
       },
     ],
+    isDeleted: {
+      type: Boolean,
+      default: false,
+    },
   },
   {
     timestamps: true,

@@ -22,7 +22,7 @@ export const getAdminDashboard = async (req, res) => {
     const onlyEmployees = await User.countDocuments({ role: 'Employee' });
 
     // 2. Active Projects count
-    const activeProjects = await Project.countDocuments({ status: 'In Progress' });
+    const activeProjects = await Project.countDocuments({ status: 'In Progress', isDeleted: { $ne: true } });
 
     // 3. Attendance % (Today's check-ins / onlyEmployees)
     const todayCheckIns = await Attendance.countDocuments({ date: today });
@@ -41,7 +41,7 @@ export const getAdminDashboard = async (req, res) => {
       .limit(5)
       .populate('userId', 'name');
 
-    const recentProjects = await Project.find()
+    const recentProjects = await Project.find({ isDeleted: { $ne: true } })
       .sort({ createdAt: -1 })
       .limit(5)
       .populate('managerId', 'name');
@@ -111,7 +111,7 @@ export const getManagerDashboard = async (req, res) => {
     const teamIds = teamMembers.map((m) => m._id);
 
     // 2. Assigned Projects list (Projects managed by this manager)
-    const projects = await Project.find({ managerId })
+    const projects = await Project.find({ managerId, isDeleted: { $ne: true } })
       .select('name description status priority startDate endDate employeeIds')
       .populate('employeeIds', 'name email');
 
@@ -161,7 +161,7 @@ export const getEmployeeDashboard = async (req, res) => {
     const today = getTodayMidnight();
 
     // 1. User's projects (Projects where employee is assigned)
-    const projects = await Project.find({ employeeIds: employeeId })
+    const projects = await Project.find({ employeeIds: employeeId, isDeleted: { $ne: true } })
       .select('name description status priority startDate endDate managerId')
       .populate('managerId', 'name email');
 
