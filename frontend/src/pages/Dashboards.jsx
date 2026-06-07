@@ -73,6 +73,16 @@ export const DashboardLayout = ({ title, role, children }) => {
             >
               Attendance
             </Link>
+            <Link
+              to="/reviews"
+              className={`px-4 py-1.5 rounded-lg text-xs font-bold transition-all duration-200 ${
+                location.pathname === '/reviews'
+                  ? 'bg-white text-indigo-600 shadow-sm'
+                  : 'text-slate-500 hover:text-slate-800'
+              }`}
+            >
+              Performance Reviews
+            </Link>
           </nav>
         )}
 
@@ -84,7 +94,7 @@ export const DashboardLayout = ({ title, role, children }) => {
               className={`px-4 py-1.5 rounded-lg text-xs font-bold transition-all duration-200 ${
                 location.pathname === '/manager/dashboard'
                   ? 'bg-white text-indigo-600 shadow-sm'
-                  : 'text-slate-500 hover:text-slate-800'
+                  : 'text-slate-500 hover:text-slate-850'
               }`}
             >
               Dashboard Overview
@@ -94,7 +104,7 @@ export const DashboardLayout = ({ title, role, children }) => {
               className={`px-4 py-1.5 rounded-lg text-xs font-bold transition-all duration-200 ${
                 location.pathname === '/projects'
                   ? 'bg-white text-indigo-600 shadow-sm'
-                  : 'text-slate-500 hover:text-slate-800'
+                  : 'text-slate-500 hover:text-slate-850'
               }`}
             >
               Project Board
@@ -104,10 +114,20 @@ export const DashboardLayout = ({ title, role, children }) => {
               className={`px-4 py-1.5 rounded-lg text-xs font-bold transition-all duration-200 ${
                 location.pathname === '/attendance'
                   ? 'bg-white text-indigo-600 shadow-sm'
-                  : 'text-slate-500 hover:text-slate-800'
+                  : 'text-slate-500 hover:text-slate-850'
               }`}
             >
               Attendance
+            </Link>
+            <Link
+              to="/reviews"
+              className={`px-4 py-1.5 rounded-lg text-xs font-bold transition-all duration-200 ${
+                location.pathname === '/reviews'
+                  ? 'bg-white text-indigo-600 shadow-sm'
+                  : 'text-slate-500 hover:text-slate-855'
+              }`}
+            >
+              Performance Reviews
             </Link>
           </nav>
         )}
@@ -134,6 +154,16 @@ export const DashboardLayout = ({ title, role, children }) => {
               }`}
             >
               Attendance History
+            </Link>
+            <Link
+              to="/reviews"
+              className={`px-4 py-1.5 rounded-lg text-xs font-bold transition-all duration-200 ${
+                location.pathname === '/reviews'
+                  ? 'bg-white text-indigo-600 shadow-sm'
+                  : 'text-slate-500 hover:text-slate-800'
+              }`}
+            >
+              Performance Reviews
             </Link>
           </nav>
         )}
@@ -196,6 +226,16 @@ export const DashboardLayout = ({ title, role, children }) => {
           >
             Attendance
           </Link>
+          <Link
+            to="/reviews"
+            className={`px-4 py-1.5 rounded-lg text-xs font-bold transition-all duration-200 ${
+              location.pathname === '/reviews'
+                ? 'bg-indigo-50 text-indigo-600'
+                : 'text-slate-500 hover:text-slate-800'
+            }`}
+          >
+            Reviews
+          </Link>
         </div>
       )}
 
@@ -232,6 +272,16 @@ export const DashboardLayout = ({ title, role, children }) => {
           >
             Attendance
           </Link>
+          <Link
+            to="/reviews"
+            className={`px-4 py-1.5 rounded-lg text-xs font-bold transition-all duration-200 ${
+              location.pathname === '/reviews'
+                ? 'bg-indigo-50 text-indigo-600'
+                : 'text-slate-500 hover:text-slate-800'
+            }`}
+          >
+            Reviews
+          </Link>
         </div>
       )}
 
@@ -257,6 +307,16 @@ export const DashboardLayout = ({ title, role, children }) => {
             }`}
           >
             Attendance
+          </Link>
+          <Link
+            to="/reviews"
+            className={`px-4 py-1.5 rounded-lg text-xs font-bold transition-all duration-200 ${
+              location.pathname === '/reviews'
+                ? 'bg-indigo-50 text-indigo-600'
+                : 'text-slate-500 hover:text-slate-800'
+            }`}
+          >
+            Reviews
           </Link>
         </div>
       )}
