@@ -1,0 +1,681 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PerformancePortal - Comprehensive System Documentation</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --slate-50: #f8fafc;
+      --slate-100: #f1f5f9;
+      --slate-200: #e2e8f0;
+      --slate-300: #cbd5e1;
+      --slate-600: #475569;
+      --slate-700: #334155;
+      --slate-800: #1e293b;
+      --slate-900: #0f172a;
+      --indigo-50: #eef2ff;
+      --indigo-100: #e0e7ff;
+      --indigo-600: #4f46e5;
+      --indigo-700: #4338ca;
+      --emerald-50: #ecfdf5;
+      --emerald-750: #047857;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Inter', system-ui, -apple-system, sans-serif;
+      background-color: var(--slate-50);
+      color: var(--slate-800);
+      line-height: 1.6;
+      padding: 40px 20px;
+    }
+
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+      background: white;
+      padding: 50px;
+      border-radius: 24px;
+      box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.05);
+      border: 1px border var(--slate-100);
+    }
+
+    h1 {
+      font-size: 32px;
+      font-weight: 900;
+      color: var(--slate-900);
+      letter-spacing: -0.05em;
+      margin-bottom: 8px;
+      line-height: 1.2;
+    }
+
+    .subtitle {
+      font-size: 14px;
+      color: var(--indigo-600);
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      margin-bottom: 24px;
+    }
+
+    hr {
+      border: 0;
+      height: 1px;
+      background: var(--slate-200);
+      margin: 32px 0;
+    }
+
+    h2 {
+      font-size: 22px;
+      font-weight: 800;
+      color: var(--slate-900);
+      letter-spacing: -0.03em;
+      margin-top: 48px;
+      margin-bottom: 16px;
+      padding-bottom: 8px;
+      border-b: 1px solid var(--slate-100);
+      display: flex;
+      items-center: center;
+    }
+
+    h3 {
+      font-size: 16px;
+      font-weight: 750;
+      color: var(--slate-900);
+      margin-top: 28px;
+      margin-bottom: 12px;
+    }
+
+    p, li {
+      font-size: 14px;
+      color: var(--slate-600);
+      font-weight: 500;
+    }
+
+    p {
+      margin-bottom: 16px;
+    }
+
+    ul, ol {
+      margin-left: 20px;
+      margin-bottom: 20px;
+    }
+
+    li {
+      margin-bottom: 8px;
+    }
+
+    /* Code styling */
+    code {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 12.5px;
+      background-color: var(--slate-100);
+      padding: 3px 6px;
+      border-radius: 6px;
+      color: var(--indigo-700);
+      font-weight: 500;
+    }
+
+    pre {
+      background: var(--slate-900);
+      padding: 16px;
+      border-radius: 12px;
+      overflow-x: auto;
+      margin-bottom: 24px;
+      border: 1px solid var(--slate-800);
+    }
+
+    pre code {
+      background: transparent;
+      padding: 0;
+      color: var(--slate-100);
+      font-size: 12px;
+    }
+
+    /* Tables */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 24px;
+      font-size: 13.5px;
+    }
+
+    th, td {
+      padding: 12px;
+      text-align: left;
+      border-bottom: 1px solid var(--slate-200);
+    }
+
+    th {
+      font-weight: 700;
+      color: var(--slate-900);
+      background-color: var(--slate-50);
+    }
+
+    td {
+      color: var(--slate-600);
+      font-weight: 500;
+    }
+
+    /* Badges */
+    .badge {
+      display: inline-block;
+      padding: 2px 8px;
+      border-radius: 12px;
+      font-size: 11px;
+      font-weight: 700;
+      background-color: var(--indigo-50);
+      color: var(--indigo-600);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    /* Table of contents links */
+    .toc {
+      background: var(--slate-50);
+      padding: 24px;
+      border-radius: 16px;
+      border: 1px solid var(--slate-200);
+      margin-bottom: 32px;
+    }
+
+    .toc h4 {
+      font-size: 14px;
+      font-weight: 800;
+      color: var(--slate-900);
+      margin-bottom: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .toc a {
+      color: var(--indigo-600);
+      text-decoration: none;
+      font-size: 13.5px;
+      font-weight: 600;
+      display: block;
+      margin-bottom: 8px;
+    }
+
+    .toc a:hover {
+      text-decoration: underline;
+    }
+
+    /* Print Break optimization */
+    @media print {
+      body {
+        background-color: white;
+        padding: 0;
+      }
+      .container {
+        box-shadow: none;
+        padding: 0;
+        border: none;
+        max-width: 100%;
+      }
+      .page-break {
+        page-break-before: always;
+      }
+      pre {
+        background: #f8fafc !important;
+        border: 1px solid #cbd5e1 !important;
+      }
+      pre code {
+        color: #0f172a !important;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <header>
+      <h1>PerformancePortal</h1>
+      <div class="subtitle">Combined Comprehensive System Documentation</div>
+      <p>This master manual details the entire software specifications, Mongoose database schemas, Express API endpoints, folder architectures, and automated verification guidelines implemented across the internship program.</p>
+    </header>
+
+    <!-- Table of Contents -->
+    <section class="toc">
+      <h4>Table of Contents</h4>
+      <a href="#phase-1">1. Phase 1: Initial Setup & Database Schemas</a>
+      <a href="#module-1">2. Module 1: Authentication & Authorization</a>
+      <a href="#module-2">3. Module 2: Role-based Dashboards</a>
+      <a href="#module-3">4. Module 3: Employee CRUD Management (Admin)</a>
+      <a href="#module-4">5. Module 4: Project Management & Soft Deletions</a>
+      <a href="#module-5">6. Module 5: Attendance Management & Live Shifts</a>
+      <a href="#module-6">7. Module 6: Performance Review Management</a>
+      <a href="#startup">8. System Installation & Startup Guide</a>
+    </section>
+
+    <hr>
+
+    <!-- Phase 1 -->
+    <section id="phase-1" class="page">
+      <h2>Phase 1: Initial Setup & Database Schemas</h2>
+      <p>The initialization phase established a clean, modular mono-repository directory system, set up connection clients to MongoDB, configured PostCSS with Tailwind CSS v4 directives, and structured Mongoose database schemas with rigorous validations.</p>
+
+      <h3>Database Schema Implementations</h3>
+      
+      <h4>1. User Schema (<code>backend/models/User.js</code>)</h4>
+      <ul>
+        <li><code>name</code>: String (required).</li>
+        <li><code>email</code>: String (required, unique, regex validation).</li>
+        <li><code>password</code>: Hashed using <code>bcryptjs</code> with auto salt generation via pre-save Mongoose hook.</li>
+        <li><code>role</code>: Enum of <code>['Admin', 'Manager', 'Employee']</code> (default: <code>'Employee'</code>).</li>
+        <li><code>department</code>: String.</li>
+        <li><code>designation</code>: String.</li>
+        <li><code>contact</code>: String.</li>
+        <li><code>joiningDate</code>: Date (default: <code>Date.now</code>).</li>
+        <li><code>managerId</code>: Relational self-reference to <code>User</code> table to manage reporting hierarchies.</li>
+      </ul>
+
+      <h4>2. Project Schema (<code>backend/models/Project.js</code>)</h4>
+      <ul>
+        <li><code>name</code>: String (required).</li>
+        <li><code>description</code>: String.</li>
+        <li><code>startDate</code> / <code>endDate</code>: Timeline Dates.</li>
+        <li><code>status</code>: Enum of <code>['Not Started', 'In Progress', 'Completed', 'On Hold']</code> (default: <code>'Not Started'</code>).</li>
+        <li><code>priority</code>: Enum of <code>['Low', 'Medium', 'High']</code> (default: <code>'Medium'</code>).</li>
+        <li><code>managerId</code>: Reference pointing to evaluating Project Manager (<code>User</code>).</li>
+        <li><code>employeeIds</code>: Array of references pointing to assigned team members (<code>User</code>).</li>
+        <li><code>isDeleted</code>: Boolean (default: <code>false</code>) for soft deletions.</li>
+      </ul>
+
+      <h4>3. Attendance Schema (<code>backend/models/Attendance.js</code>)</h4>
+      <ul>
+        <li><code>userId</code>: Reference linking the log to the Employee (<code>User</code>, required).</li>
+        <li><code>date</code>: Date (normalized to midnight UTC to prevent time-zone shifts).</li>
+        <li><code>checkInTime</code>: ISO Date timestamp (required).</li>
+        <li><code>checkOutTime</code>: ISO Date timestamp (optional).</li>
+        <li>Compound Index: Unique index on <code>{ userId: 1, date: 1 }</code> to prevent double check-ins.</li>
+      </ul>
+
+      <h4>4. Review Schema (<code>backend/models/Review.js</code>)</h4>
+      <ul>
+        <li><code>employeeId</code>: Reference to evaluated Employee (<code>User</code>, required).</li>
+        <li><code>managerId</code>: Reference to submitting Evaluator (<code>User</code>, required).</li>
+        <li>5-Star rating fields: Integers between 1 and 5 (Technical, Communication, Team Collaboration, Problem Solving, Leadership).</li>
+        <li><code>comments</code>: String text comments.</li>
+      </ul>
+    </section>
+
+    <hr class="page-break">
+
+    <!-- Module 1 -->
+    <section id="module-1" class="page">
+      <h2>Module 1: Authentication & Authorization</h2>
+      <p>Module 1 built secure user onboarding views and API routes, protected endpoints with signed JWT sessions, and blocked invalid navigation using client-side routing guards.</p>
+
+      <h3>Features Implemented</h3>
+      <ul>
+        <li><strong>JWT Session Generation</strong>: Cryptographically signs user IDs and roles into a token payload.</li>
+        <li><strong>Endpoint Protection Middleware</strong>: Protects routes by validating Bearer tokens.</li>
+        <li><strong>Role-based Authorization</strong>: Validates roles before granting access to server endpoints.</li>
+        <li><strong>Client Router Guards</strong>: Wraps routes in a ProtectedRoute component to reject invalid sessions.</li>
+        <li><strong>Onboarding UI</strong>: Login, Signup, and ForgotPassword screens.</li>
+      </ul>
+
+      <h3>API Endpoint Registry</h3>
+      <table>
+        <thead>
+          <tr>
+            <th>Endpoint</th>
+            <th>Method</th>
+            <th>Access</th>
+            <th>Description</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>/api/auth/register</code></td>
+            <td><span class="badge">POST</span></td>
+            <td>Public</td>
+            <td>Creates a user, hashes password, and returns profile + signed JWT.</td>
+          </tr>
+          <tr>
+            <td><code>/api/auth/login</code></td>
+            <td><span class="badge">POST</span></td>
+            <td>Public</td>
+            <td>Validates credentials, returning profile + signed JWT.</td>
+          </tr>
+          <tr>
+            <td><code>/api/auth/me</code></td>
+            <td><span class="badge">GET</span></td>
+            <td>Private</td>
+            <td>Returns active user profile. Requires Bearer Token.</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <hr class="page-break">
+
+    <!-- Module 2 -->
+    <section id="module-2" class="page">
+      <h2>Module 2: Role-based Dashboards</h2>
+      <p>Module 2 created responsive dashboard overview screens tailored specifically to the logged-in user's role.</p>
+
+      <h3>Features Implemented</h3>
+      <ul>
+        <li><strong>Admin Console</strong>: Displays employee counts, active projects, live attendance metrics, review progress counts, and system activity streams.</li>
+        <li><strong>Manager Console</strong>: Displays team directories with active status badges, managed project tables, and daily reports checklist.</li>
+        <li><strong>Employee Console</strong>: Displays personal shifts status, overall score averages, score breakdown charts, and manager reviews feeds.</li>
+      </ul>
+
+      <h3>API Endpoint Registry</h3>
+      <table>
+        <thead>
+          <tr>
+            <th>Endpoint</th>
+            <th>Method</th>
+            <th>Access</th>
+            <th>Description</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>/api/dashboard/admin</code></td>
+            <td><span class="badge">GET</span></td>
+            <td>Private (Admin)</td>
+            <td>Fetches total employees, active projects, today's attendance %, and logs feed.</td>
+          </tr>
+          <tr>
+            <td><code>/api/dashboard/manager</code></td>
+            <td><span class="badge">GET</span></td>
+            <td>Private (Manager)</td>
+            <td>Fetches team size, assigned projects, check-in logs, and pending report reviews.</td>
+          </tr>
+          <tr>
+            <td><code>/api/dashboard/employee</code></td>
+            <td><span class="badge">GET</span></td>
+            <td>Private (Employee)</td>
+            <td>Fetches assigned projects, today's shifts, average rating scores, and review comments.</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <hr class="page-break">
+
+    <!-- Module 3 -->
+    <section id="module-3" class="page">
+      <h2>Module 3: Employee CRUD Management (Admin Only)</h2>
+      <p>Module 3 implemented directory boards, CRUD forms, and cascading deletions to manage system user directories.</p>
+
+      <h3>Features Implemented</h3>
+      <ul>
+        <li><strong>Employee Directory Board</strong>: Dynamic search filters by name/email, designations, departments, and roles.</li>
+        <li><strong>CRUD Forms</strong>: Enforces strict data validations (unique emails, valid contact formats) and conditional password checks.</li>
+        <li><strong>Dynamic Manager Dropdown</strong>: Pulls current user list with role <code>Manager</code>. Hides selection if user role is Manager.</li>
+        <li><strong>Cascading Deletions</strong>: Deletes user references in assigned projects and direct reports before user profile removal.</li>
+      </ul>
+
+      <h3>API Endpoint Registry</h3>
+      <table>
+        <thead>
+          <tr>
+            <th>Endpoint</th>
+            <th>Method</th>
+            <th>Access</th>
+            <th>Description</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>/api/users</code></td>
+            <td><span class="badge">GET</span></td>
+            <td>Private (Admin)</td>
+            <td>Returns a list of all user profiles (excluding Admins).</td>
+          </tr>
+          <tr>
+            <td><code>/api/users</code></td>
+            <td><span class="badge">POST</span></td>
+            <td>Private (Admin)</td>
+            <td>Creates and registers a new employee/manager profile.</td>
+          </tr>
+          <tr>
+            <td><code>/api/users/:id</code></td>
+            <td><span class="badge">PUT</span></td>
+            <td>Private (Admin)</td>
+            <td>Updates user parameters. Password update is optional.</td>
+          </tr>
+          <tr>
+            <td><code>/api/users/:id</code></td>
+            <td><span class="badge">DELETE</span></td>
+            <td>Private (Admin)</td>
+            <td>Removes profile and detaches reporting/project assignments.</td>
+          </tr>
+          <tr>
+            <td><code>/api/users/managers</code></td>
+            <td><span class="badge">GET</span></td>
+            <td>Private (Admin)</td>
+            <td>Fetches dropdown managers list.</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <hr class="page-break">
+
+    <!-- Module 4 -->
+    <section id="module-4" class="page">
+      <h2>Module 4: Project Management & Soft Deletions</h2>
+      <p>Module 4 implemented project tracking, status lanes, multi-select employee assignments, and database soft-deletes.</p>
+
+      <h3>Features Implemented</h3>
+      <ul>
+        <li><strong>Project Management Board</strong>: Displays status lanes, priorities, timelines, and approaching deadline indicators.</li>
+        <li><strong>Employee Checklist</strong>: Renders a checklist of employees to check/uncheck multiple assignees in forms.</li>
+        <li><strong>Soft Delete Schema</strong>: Sets <code>isDeleted = true</code> to filter out projects while preserving historic database relations.</li>
+        <li><strong>Role Boundaries</strong>: Managers can only edit/delete projects they own; Admins have full access.</li>
+      </ul>
+
+      <h3>API Endpoint Registry</h3>
+      <table>
+        <thead>
+          <tr>
+            <th>Endpoint</th>
+            <th>Method</th>
+            <th>Access</th>
+            <th>Description</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>/api/projects</code></td>
+            <td><span class="badge">GET</span></td>
+            <td>Private</td>
+            <td>Returns list of non-deleted projects based on user roles.</td>
+          </tr>
+          <tr>
+            <td><code>/api/projects</code></td>
+            <td><span class="badge">POST</span></td>
+            <td>Private (Admin/Manager)</td>
+            <td>Registers a new project. Default manager is req.user for Managers.</td>
+          </tr>
+          <tr>
+            <td><code>/api/projects/:id</code></td>
+            <td><span class="badge">PUT</span></td>
+            <td>Private (Admin/Manager)</td>
+            <td>Updates project details. Blocks unauthorized managers.</td>
+          </tr>
+          <tr>
+            <td><code>/api/projects/:id</code></td>
+            <td><span class="badge">DELETE</span></td>
+            <td>Private (Admin/Manager)</td>
+            <td>Sets project <code>isDeleted = true</code>. Blocks unauthorized managers.</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <hr class="page-break">
+
+    <!-- Module 5 -->
+    <section id="module-5" class="page">
+      <h2>Module 5: Attendance Management & Live Shifts</h2>
+      <p>Module 5 implemented clock-in/out widgets, decimal work hour calculations, active session indicators, and role history auditing with manager self-attendance tab options.</p>
+
+      <h3>Features Implemented</h3>
+      <ul>
+        <li><strong>Clock Widget</strong>: Dashboard buttons triggering clock-in and clock-out timestamps. Blocks double check-ins.</li>
+        <li><strong>Hours Calculator</strong>: Computes work hours as <code>checkOutTime - checkInTime</code> in decimal. Active shifts show "In Progress" with hours calculated to current clock time.</li>
+        <li><strong>Tabbed Layout (Manager/Admin)</strong>: Toggle options to view <strong>Team Presence Audit</strong> (direct reports logs) and <strong>My Attendance</strong> (personal log metrics).</li>
+      </ul>
+
+      <h3>API Endpoint Registry</h3>
+      <table>
+        <thead>
+          <tr>
+            <th>Endpoint</th>
+            <th>Method</th>
+            <th>Access</th>
+            <th>Description</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>/api/attendance/check-in</code></td>
+            <td><span class="badge">POST</span></td>
+            <td>Private</td>
+            <td>Registers check-in for today. Fails if record exists.</td>
+          </tr>
+          <tr>
+            <td><code>/api/attendance/check-out</code></td>
+            <td><span class="badge">POST</span></td>
+            <td>Private</td>
+            <td>Updates today's check-out timestamp.</td>
+          </tr>
+          <tr>
+            <td><code>/api/attendance/status</code></td>
+            <td><span class="badge">GET</span></td>
+            <td>Private</td>
+            <td>Returns today's check-in status log (or null).</td>
+          </tr>
+          <tr>
+            <td><code>/api/attendance/my-history</code></td>
+            <td><span class="badge">GET</span></td>
+            <td>Private</td>
+            <td>Returns personal logs sorted by date descending.</td>
+          </tr>
+          <tr>
+            <td><code>/api/attendance/team</code></td>
+            <td><span class="badge">GET</span></td>
+            <td>Private (Admin/Manager)</td>
+            <td>Returns direct reports' attendance (Managers) or all logs (Admin).</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <hr class="page-break">
+
+    <!-- Module 6 -->
+    <section id="module-6" class="page">
+      <h2>Module 6: Performance Review Management</h2>
+      <p>Module 6 implemented performance evaluation logs with 5-star ratings and textual feedback comments, completed by direct managers, and auditable by HR admins.</p>
+
+      <h3>Features Implemented</h3>
+      <ul>
+        <li><strong>Star Rating Inputs</strong>: Custom, interactive 5-star controls to evaluate Technical, Communication, Teamwork, Problem Solving, and Leadership skills.</li>
+        <li><strong>Manager Evaluation Board</strong>: Displays reports waiting evaluations (Pending tab) and logs of submitted reviews with update/delete actions.</li>
+        <li><strong>Organizational Audit Logs (Admin)</strong>: HR console listing all submitted reviews with employee/evaluator search filters.</li>
+        <li><strong>Feedback History (Employee)</strong>: Log history displaying evaluations and comments from reporting managers.</li>
+      </ul>
+
+      <h3>API Endpoint Registry</h3>
+      <table>
+        <thead>
+          <tr>
+            <th>Endpoint</th>
+            <th>Method</th>
+            <th>Access</th>
+            <th>Description</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>/api/reviews</code></td>
+            <td><span class="badge">POST</span></td>
+            <td>Private (Admin/Manager)</td>
+            <td>Submits a new review. Blocks duplicate evaluations.</td>
+          </tr>
+          <tr>
+            <td><code>/api/reviews/my-reviews</code></td>
+            <td><span class="badge">GET</span></td>
+            <td>Private</td>
+            <td>Returns all evaluations received by the user.</td>
+          </tr>
+          <tr>
+            <td><code>/api/reviews/manager</code></td>
+            <td><span class="badge">GET</span></td>
+            <td>Private (Manager)</td>
+            <td>Returns all evaluations submitted by this manager.</td>
+          </tr>
+          <tr>
+            <td><code>/api/reviews/:id</code></td>
+            <td><span class="badge">PUT</span></td>
+            <td>Private (Admin/Manager)</td>
+            <td>Updates review ratings/comments. Blocks unauthorized managers.</td>
+          </tr>
+          <tr>
+            <td><code>/api/reviews/:id</code></td>
+            <td><span class="badge">DELETE</span></td>
+            <td>Private (Admin/Manager)</td>
+            <td>Deletes evaluation. Blocks unauthorized managers.</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <hr class="page-break">
+
+    <!-- Startup -->
+    <section id="startup" class="page">
+      <h2>System Installation & Startup Guide</h2>
+      <p>Follow these setup guidelines to run and verify the local environment:</p>
+
+      <h3>1. Setup Prerequisites</h3>
+      <p>Ensure you have <strong>Node.js</strong> and a local instance of <strong>MongoDB</strong> (default port 27017) running.</p>
+
+      <h3>2. Bootstrap the Backend Server</h3>
+      <pre><code>cd backend
+npm install
+node scripts/seed.js     # Seeds initial users, projects, and logs
+npm run dev              # Runs Express server on http://localhost:5000</code></pre>
+
+      <h3>3. Start the Frontend Client</h3>
+      <pre><code>cd ../frontend
+npm install
+npm run dev              # Runs Vite Client on http://localhost:5173</code></pre>
+
+      <h3>4. Execute Verification Test Suites</h3>
+      <p>Run any of the automated API verification scripts in the <code>backend</code> directory to test functionality:</p>
+      <ul>
+        <li><code>node scripts/verify-auth.js</code> (Authentication)</li>
+        <li><code>node scripts/verify-schemas.js</code> (Database validations)</li>
+        <li><code>node scripts/verify-crud.js</code> (Admin Employee actions)</li>
+        <li><code>node scripts/verify-projects.js</code> (Project Management soft-deletes)</li>
+        <li><code>node scripts/verify-attendance.js</code> (Check-ins/outs)</li>
+        <li><code>node scripts/verify-reviews.js</code> (Evaluations)</li>
+      </ul>
+    </section>
+
+    <hr>
+    <footer>
+      <p style="text-align: center; font-size: 12px; color: var(--slate-600);">© 2026 PerformancePortal Internship. All Rights Reserved.</p>
+    </footer>
+  </div>
+
+</body>
+</html>
